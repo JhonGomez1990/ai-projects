@@ -4,10 +4,10 @@ class CameraInput:
     
     @staticmethod
     def camera_input():
-        enable = st.checkbox("Enable camera")
-        picture = st.camera_input("Take a picture", disabled=not enable)
+        enable = st.checkbox("Activar camara")
+        picture = st.camera_input("Toma una foto", disabled=not enable)
 
         if picture:
-            st.image(picture, caption="Capture image")
+            st.image(picture, caption="Capturar imagen")
         
         return picture
