@@ -13,7 +13,7 @@ Actualmente contiene dos proyectos independientes.
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
 ![Camera](https://img.shields.io/badge/Camera-Ready-brightgreen)
-![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
 
 Aplicación para captura y procesamiento de imágenes utilizando técnicas de clustering.
 
