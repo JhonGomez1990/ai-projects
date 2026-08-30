@@ -4,21 +4,22 @@ Implementar la captura de imágenes desde la cámara del dispositivo.
 Permitir la clasificación manual de imágenes en diferentes clusters.
 Organizar, almacenar y descargar la información de forma estructurada.
 
-
-Webcam
-   ↓
-Capturar foto
-   ↓
-Convertir imagen a matriz RGB
-   ↓
-Cada pixel = [R, G, B]
-   ↓
-Usuario selecciona K clusters
-   ↓
-K-Means agrupa colores similares
-   ↓
-Cada pixel recibe un cluster
-   ↓
-Se reconstruye la imagen
-   ↓
-Visualización + almacenamiento + descarga
+ameraInput
+     ↓
+Imagen
+     ↓
+ClusterProcessor
+     ↓
+Seleccionar K
+     ↓
+reshape
+     ↓
+KMeans
+     ↓
+Etiquetas
+     ↓
+Centroides
+     ↓
+Reconstrucción
+     ↓
+Imagen procesada
