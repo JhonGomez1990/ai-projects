@@ -3,6 +3,7 @@ from src.service.data_exploration import explore_data, load_data
 from src.service.data_preprocessing import preprocess_data
 from src.service.result_service import save_result
 from src.models.knn_model import KNNModel
+from src.models.svm_model import SVMModel
 from src.use_case.model_runner import run_model
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -52,23 +53,28 @@ def main() -> None:
 
     test_clean = preprocess_data(test_df, TEST_PROCESSED_FILE)
 
-    # 4. Crear modelo
-    model = KNNModel(k=5)
+    # 4. Crear modelos
+    models = [
+        KNNModel(k=5),
+        SVMModel(),
+    ]
 
-    # 5. Entrenar y evaluar
-    accuracy = run_model(model, train_clean, test_clean)
+    for model in models:
 
-    # 6. Mostrar resultado
-    print("\n" + "=" * 50)
-    print("RESULTADO DEL MODELO")
-    print("=" * 50)
+        # 5. Entrenar y evaluar
+        accuracy = run_model(model, train_clean, test_clean)
 
-    print(f"\nModelo: {model.name}")
-    print(f"Accuracy: {accuracy:.4f}")
-    print(f"Accuracy (%): {accuracy:.2%}")
-    
-    # 7. Guardar resultado
-    save_result(model.name, accuracy, RESULTS_FILE)
+        # 6. Mostrar resultado
+        print("\n" + "=" * 50)
+        print("RESULTADO DEL MODELO")
+        print("=" * 50)
+
+        print(f"\nModelo: {model.name}")
+        print(f"Accuracy: {accuracy:.4f}")
+        print(f"Accuracy (%): {accuracy:.2%}")
+
+        # 7. Guardar resultado
+        save_result(model.name, accuracy, RESULTS_FILE)
 
 if __name__ == "__main__":
     main()
