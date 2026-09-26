@@ -4,6 +4,8 @@ from src.service.data_preprocessing import preprocess_data
 from src.service.result_service import save_result
 from src.models.knn_model import KNNModel
 from src.models.svm_model import SVMModel
+from src.models.decision_tree_model import DecisionTreeModel
+from src.models.logistic_model import LogisticModel
 from src.use_case.model_runner import run_model
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -56,6 +58,8 @@ def main() -> None:
     # 4. Crear modelos
     models = [
         KNNModel(k=5),
+        LogisticModel(),
+        DecisionTreeModel(),
         SVMModel(),
     ]
 
