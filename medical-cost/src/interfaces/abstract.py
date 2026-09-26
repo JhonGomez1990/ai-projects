@@ -12,12 +12,6 @@ class RegressionModel(ABC):
         """Nombre del modelo."""
         pass
 
-    @property
-    @abstractmethod
-    def estimator(self):
-        """Estimador de scikit-learn (se usa para validación cruzada)."""
-        pass
-
     @abstractmethod
     def train(self, x_train: pd.DataFrame, y_train: pd.Series) -> None:
         """Entrena el modelo utilizando los datos de entrenamiento."""

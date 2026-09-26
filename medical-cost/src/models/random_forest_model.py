@@ -21,10 +21,6 @@ class RandomForestModel(RegressionModel):
     def name(self) -> str:
         return "Random Forest"
 
-    @property
-    def estimator(self):
-        return self.model
-
     def train(self, x_train: pd.DataFrame, y_train: pd.Series) -> None:
         """Entrena el bosque aleatorio."""
 

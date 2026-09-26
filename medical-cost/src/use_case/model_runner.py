@@ -12,7 +12,7 @@ def cross_validate_r2(model: RegressionModel, x_train: pd.DataFrame, y_train: pd
 
     folds = KFold(n_splits=CV_FOLDS, shuffle=True, random_state=RANDOM_STATE)
 
-    scores = cross_val_score(clone(model.estimator), x_train, y_train, cv=folds, scoring="r2")
+    scores = cross_val_score(clone(model.model), x_train, y_train, cv=folds, scoring="r2")
 
     return pd.Series(scores)
 
