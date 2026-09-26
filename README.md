@@ -15,7 +15,7 @@ Actualmente contiene tres proyectos independientes.
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
 ![Camera](https://img.shields.io/badge/Camera-Ready-brightgreen)
-![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
 
 Aplicación para captura y procesamiento de imágenes utilizando técnicas de clustering.
 
@@ -33,9 +33,14 @@ Funcionalidades:
 
 ### 2. Segundo Proyecto
 
-![Status](https://img.shields.io/badge/Status-Pending-lightgrey)
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
 
-Descripción pendiente.
+Bot de preguntas y respuestas que evalúa síntomas marcados por el usuario
+contra una base de conocimiento estructurada de trastornos, y genera un
+reporte preliminar de coincidencias mediante reglas de inferencia.
+
 
 📁 [Ver proyecto](./sistemas_expertos)
 
