@@ -27,6 +27,3 @@ Thumbs.db
 # Archivos temporales
 *.log
 *.tmp
-
-# Datos generados por la aplicación
-data/
