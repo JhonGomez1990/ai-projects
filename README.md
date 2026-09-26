@@ -1,10 +1,8 @@
-from pathlib import Path
-
-content = """# AI Challenges
+# AI Challenges
 
 Repositorio destinado al desarrollo de los retos propuestos durante el curso.
 
-Actualmente contiene tres proyectos independientes.
+Actualmente contiene cuatro proyectos independientes.
 
 ---
 
@@ -69,8 +67,24 @@ Funcionalidades:
 📁 [Ver proyecto](./customer-churn)
 
 ---
-"""
 
-path = Path("/mnt/data/README.md")
-path.write_text(content, encoding="utf-8")
-print(path)
+### 4. Medical Cost Prediction
+
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
+![Scikit-learn](https://img.shields.io/badge/Scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
+![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
+
+Proyecto de regresión para predecir el costo médico anual de una persona a partir de sus características.
+
+Funcionalidades:
+
+- Exploración y preparación del Medical Cost Personal Dataset.
+- Regresión lineal, regresión polinómica y Random Forest.
+- Evaluación con R², MAE, RMSE y validación cruzada.
+- Comparación de modelos con tablas y gráficas.
+- Interfaz gráfica para ingresar los datos de una persona y estimar su costo.
+
+📁 [Ver proyecto](./medical-cost)
+
+---
