@@ -1,8 +1,10 @@
-# AI Challenges
+from pathlib import Path
+
+content = """# AI Challenges
 
 Repositorio destinado al desarrollo de los retos propuestos durante el curso.
 
-Actualmente contiene dos proyectos independientes.
+Actualmente contiene tres proyectos independientes.
 
 ---
 
@@ -38,3 +40,32 @@ Descripción pendiente.
 📁 [Ver proyecto](./sistemas_expertos)
 
 ---
+
+### 3. Customer Churn Classification
+
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-Data%20Processing-150458?logo=pandas&logoColor=white)
+![Scikit-learn](https://img.shields.io/badge/Scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
+![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
+
+Proyecto de clasificación para predecir si un cliente abandonará o permanecerá en el servicio a partir de sus características.
+
+Funcionalidades:
+
+- Carga de datasets de entrenamiento y prueba.
+- Exploración de datos.
+- Limpieza y preparación de datos.
+- Codificación de variables categóricas.
+- Generación de datasets procesados.
+- Implementación del modelo K-Nearest Neighbors (KNN).
+- Evaluación del modelo mediante accuracy.
+- Consolidación de resultados de los modelos.
+
+📁 [Ver proyecto](./customer-churn)
+
+---
+"""
+
+path = Path("/mnt/data/README.md")
+path.write_text(content, encoding="utf-8")
+print(path)
