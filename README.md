@@ -49,7 +49,7 @@ reporte preliminar de coincidencias mediante reglas de inferencia.
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-Data%20Processing-150458?logo=pandas&logoColor=white)
 ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
-![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
 
 Proyecto de clasificación para predecir si un cliente abandonará o permanecerá en el servicio a partir de sus características.
 
@@ -73,7 +73,7 @@ Funcionalidades:
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
 ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
-![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
 
 Proyecto de regresión para predecir el costo médico anual de una persona a partir de sus características.
 
