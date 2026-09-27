@@ -30,21 +30,75 @@ TRAIN_FILE = (
 st.set_page_config(
     page_title="Customer Churn",
     page_icon="📊",
-    layout="centered",
+    layout="wide",
 )
 
-
-# ============================================================
-# TÍTULO
-# ============================================================
-
-st.title("📊 Customer Churn Prediction")
-
-st.write(
-    "Ingrese las características de un cliente para predecir "
-    "si abandonará o permanecerá en el servicio."
+st.markdown(
+    """
+    <style>
+    .main {
+        background: linear-gradient(180deg, #f5f7ff 0%, #eef4ff 100%);
+    }
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    .title-box {
+        background: linear-gradient(135deg, #1f3a8a, #2563eb);
+        border-radius: 18px;
+        padding: 1.5rem 1.7rem;
+        color: white;
+        box-shadow: 0 12px 28px rgba(37, 99, 235, 0.18);
+    }
+    .section-card {
+        background: rgba(255,255,255,0.85);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 18px;
+        padding: 1rem 1.2rem;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+    }
+    .metric-card {
+        background: linear-gradient(135deg, #ffffff, #f8fbff);
+        border: 1px solid #dbeafe;
+        border-radius: 16px;
+        padding: 1rem;
+        box-shadow: 0 6px 14px rgba(59,130,246,0.08);
+    }
+    div[data-testid="stForm"] {
+        background: transparent;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
 )
 
+header_col, badge_col = st.columns([3, 1])
+
+with header_col:
+    st.markdown(
+        """
+        <div class="title-box">
+            <h1 style="margin:0; font-size:2.2rem;">📊 Customer Churn Prediction</h1>
+            <p style="margin:0.5rem 0 0; font-size:1rem; opacity:0.9;">
+                Evalúa el riesgo de abandono de clientes con un panel de modelos predictivos.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+with badge_col:
+    st.markdown(
+        """
+        <div class="metric-card">
+            <div style="font-size:0.8rem; color:#475569;">Estado</div>
+            <div style="font-size:1.8rem; font-weight:700; color:#0f172a;">Live</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+st.write("")
 
 # ============================================================
 # CARGAR Y PREPARAR LOS DATOS
@@ -88,6 +142,12 @@ try:
     train_df = load_training_data()
     models = train_models(train_df)
 
+    with st.container():
+        col_a, col_b, col_c = st.columns(3)
+        col_a.metric("Modelos", len(models.keys()))
+        col_b.metric("Entrada", "10 campos")
+        col_c.metric("Objetivo", "Churn")
+
 except Exception as e:
 
     st.error(
@@ -103,225 +163,149 @@ except Exception as e:
 # FORMULARIO DE DATOS DEL CLIENTE
 # ============================================================
 
-st.header("Datos del cliente")
+st.markdown("<div class='section-card'><h3 style='margin-top:0;'>🧾 Datos del cliente</h3></div>", unsafe_allow_html=True)
 
-age = st.number_input(
-    "Edad",
-    min_value=18,
-    max_value=100,
-    value=None,
-    placeholder="Ingrese la edad",
-)
+with st.form("churn_prediction_form"):
+    col1, col2 = st.columns(2)
 
-gender = st.selectbox(
-    "Género",
-    ["Seleccione...", "Female", "Male"],
-)
-
-tenure = st.number_input(
-    "Antigüedad (Tenure)",
-    min_value=0,
-    max_value=100,
-    value=None,
-    placeholder="Ingrese la antigüedad",
-)
-
-usage_frequency = st.number_input(
-    "Frecuencia de uso",
-    min_value=0,
-    max_value=100,
-    value=None,
-    placeholder="Ingrese la frecuencia de uso",
-)
-
-support_calls = st.number_input(
-    "Llamadas de soporte",
-    min_value=0,
-    max_value=100,
-    value=None,
-    placeholder="Ingrese las llamadas de soporte",
-)
-
-payment_delay = st.number_input(
-    "Retraso en pagos",
-    min_value=0,
-    max_value=100,
-    value=None,
-    placeholder="Ingrese el retraso en pagos",
-)
-
-subscription_type = st.selectbox(
-    "Tipo de suscripción",
-    ["Seleccione...", "Basic", "Standard", "Premium"],
-)
-
-contract_length = st.selectbox(
-    "Duración del contrato",
-    ["Seleccione...", "Monthly", "Quarterly", "Annual"],
-)
-
-total_spend = st.number_input(
-    "Gasto total",
-    min_value=0.0,
-    max_value=10000.0,
-    value=None,
-    placeholder="Ingrese el gasto total",
-)
-
-last_interaction = st.number_input(
-    "Última interacción",
-    min_value=0,
-    max_value=100,
-    value=None,
-    placeholder="Ingrese los días desde la última interacción",
-)
-
-
-# ============================================================
-# SELECCIÓN DEL MODELO
-# ============================================================
-
-st.header("Modelo de clasificación")
-
-model_name = st.selectbox(
-    "Seleccione el modelo que desea utilizar:",
-    list(models.keys()),
-)
-
-
-# ============================================================
-# BOTÓN DE PREDICCIÓN
-# ============================================================
-
-if st.button("🔮 Predecir Churn", use_container_width=True):
-
-    # ========================================================
-    # VALIDAR QUE TODOS LOS CAMPOS ESTÉN COMPLETOS
-    # ========================================================
-
-    if (
-        age is None
-        or tenure is None
-        or usage_frequency is None
-        or support_calls is None
-        or payment_delay is None
-        or total_spend is None
-        or last_interaction is None
-        or gender == "Seleccione..."
-        or subscription_type == "Seleccione..."
-        or contract_length == "Seleccione..."
-    ):
-
-        st.warning(
-            "⚠️ Por favor, complete todos los campos "
-            "antes de realizar la predicción."
+    with col1:
+        age = st.number_input(
+            "Edad",
+            min_value=18,
+            max_value=100,
+            value=None,
+            placeholder="Ingrese la edad",
         )
 
-    else:
-
-        # ====================================================
-        # CREAR LOS DATOS DEL CLIENTE
-        # ====================================================
-
-        customer_data = pd.DataFrame(
-            [
-                {
-                    "Age": age,
-                    "Gender": gender,
-                    "Tenure": tenure,
-                    "Usage Frequency": usage_frequency,
-                    "Support Calls": support_calls,
-                    "Payment Delay": payment_delay,
-                    "Subscription Type": subscription_type,
-                    "Contract Length": contract_length,
-                    "Total Spend": total_spend,
-                    "Last Interaction": last_interaction,
-                }
-            ]
+        gender = st.selectbox(
+            "Género",
+            ["Seleccione...", "Female", "Male"],
         )
 
-        # ====================================================
-        # APLICAR LAS MISMAS TRANSFORMACIONES
-        # UTILIZADAS DURANTE EL ENTRENAMIENTO
-        # ====================================================
-
-        customer_data["Gender"] = customer_data["Gender"].map(
-            {
-                "Female": 0,
-                "Male": 1,
-            }
+        tenure = st.number_input(
+            "Antigüedad (Tenure)",
+            min_value=0,
+            max_value=100,
+            value=None,
+            placeholder="Ingrese la antigüedad",
         )
 
-        customer_data["Subscription Type"] = customer_data[
-            "Subscription Type"
-        ].map(
-            {
-                "Basic": 0,
-                "Standard": 1,
-                "Premium": 2,
-            }
+        usage_frequency = st.number_input(
+            "Frecuencia de uso",
+            min_value=0,
+            max_value=100,
+            value=None,
+            placeholder="Ingrese la frecuencia de uso",
         )
 
-        customer_data["Contract Length"] = customer_data[
-            "Contract Length"
-        ].map(
-            {
-                "Monthly": 0,
-                "Quarterly": 1,
-                "Annual": 2,
-            }
+        support_calls = st.number_input(
+            "Llamadas de soporte",
+            min_value=0,
+            max_value=100,
+            value=None,
+            placeholder="Ingrese las llamadas de soporte",
         )
 
-        # ====================================================
-        # OBTENER EL MODELO SELECCIONADO
-        # ====================================================
-
-        model = models[model_name]
-
-        # ====================================================
-        # MOSTRAR LOS DATOS ENVIADOS AL MODELO
-        # ====================================================
-
-        st.subheader("Datos enviados al modelo")
-
-        st.dataframe(
-            customer_data,
-            use_container_width=True
+    with col2:
+        payment_delay = st.number_input(
+            "Retraso en pagos",
+            min_value=0,
+            max_value=100,
+            value=None,
+            placeholder="Ingrese el retraso en pagos",
         )
 
-        # ====================================================
-        # REALIZAR LA PREDICCIÓN
-        # ====================================================
+        subscription_type = st.selectbox(
+            "Tipo de suscripción",
+            ["Seleccione...", "Basic", "Standard", "Premium"],
+        )
 
-        prediction = model.predict(customer_data)[0]
+        contract_length = st.selectbox(
+            "Duración del contrato",
+            ["Seleccione...", "Monthly", "Quarterly", "Annual"],
+        )
 
-        st.write("Predicción interna:", prediction)
+        total_spend = st.number_input(
+            "Gasto total",
+            min_value=0.0,
+            max_value=10000.0,
+            value=None,
+            placeholder="Ingrese el gasto total",
+        )
 
-        # ====================================================
-        # MOSTRAR RESULTADO
-        # ====================================================
+        last_interaction = st.number_input(
+            "Última interacción",
+            min_value=0,
+            max_value=100,
+            value=None,
+            placeholder="Ingrese los días desde la última interacción",
+        )
 
-        st.header("Resultado")
+    st.markdown("---")
 
-        if prediction == 1:
+    model_name = st.selectbox(
+        "Seleccione el modelo que desea utilizar:",
+        list(models.keys()),
+    )
 
-            st.error(
-                "⚠️ El modelo predice que el cliente "
-                "ABANDONARÁ el servicio."
-            )
+    st.write("")
+    submitted = st.form_submit_button("🔮 Predecir Churn", use_container_width=True)
 
+    if submitted:
+        if (
+            age is None
+            or tenure is None
+            or usage_frequency is None
+            or support_calls is None
+            or payment_delay is None
+            or total_spend is None
+            or last_interaction is None
+            or gender == "Seleccione..."
+            or subscription_type == "Seleccione..."
+            or contract_length == "Seleccione..."
+        ):
+            st.warning("⚠️ Por favor, complete todos los campos antes de realizar la predicción.")
         else:
-
-            st.success(
-                "✅ El modelo predice que el cliente "
-                "PERMANECERÁ en el servicio."
+            customer_data = pd.DataFrame(
+                [
+                    {
+                        "Age": age,
+                        "Gender": gender,
+                        "Tenure": tenure,
+                        "Usage Frequency": usage_frequency,
+                        "Support Calls": support_calls,
+                        "Payment Delay": payment_delay,
+                        "Subscription Type": subscription_type,
+                        "Contract Length": contract_length,
+                        "Total Spend": total_spend,
+                        "Last Interaction": last_interaction,
+                    }
+                ]
             )
 
-        st.write(
-            f"**Modelo utilizado:** {model_name}"
-        )
+            customer_data["Gender"] = customer_data["Gender"].map({"Female": 0, "Male": 1})
+            customer_data["Subscription Type"] = customer_data["Subscription Type"].map({"Basic": 0, "Standard": 1, "Premium": 2})
+            customer_data["Contract Length"] = customer_data["Contract Length"].map({"Monthly": 0, "Quarterly": 1, "Annual": 2})
 
-        st.write(
-            f"**Predicción:** "
-            f"{'Abandona (1)' if prediction == 1 else 'Permanece (0)'}"
-        )
+            model = models[model_name]
+
+            st.markdown("---")
+            st.subheader("📊 Datos enviados al modelo")
+            st.dataframe(customer_data, use_container_width=True)
+
+            prediction = model.predict(customer_data)[0]
+
+            st.markdown("---")
+            st.subheader("📌 Resultado de la predicción")
+
+            if prediction == 1:
+                st.error("⚠️ El modelo predice que el cliente ABANDONARÁ el servicio.")
+            else:
+                st.success("✅ El modelo predice que el cliente PERMANECERÁ en el servicio.")
+
+            st.write(f"**Modelo utilizado:** {model_name}")
+            st.write(f"**Predicción:** {'Abandona (1)' if prediction == 1 else 'Permanece (0)'}")
+
+            st.write("Predicción interna:", prediction)
+
+
