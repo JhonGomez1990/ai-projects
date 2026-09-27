@@ -109,64 +109,71 @@ age = st.number_input(
     "Edad",
     min_value=18,
     max_value=100,
-    value=30,
+    value=None,
+    placeholder="Ingrese la edad",
 )
 
 gender = st.selectbox(
     "Género",
-    ["Female", "Male"],
+    ["Seleccione...", "Female", "Male"],
 )
 
 tenure = st.number_input(
     "Antigüedad (Tenure)",
     min_value=0,
     max_value=100,
-    value=30,
+    value=None,
+    placeholder="Ingrese la antigüedad",
 )
 
 usage_frequency = st.number_input(
     "Frecuencia de uso",
     min_value=0,
     max_value=100,
-    value=14,
+    value=None,
+    placeholder="Ingrese la frecuencia de uso",
 )
 
 support_calls = st.number_input(
     "Llamadas de soporte",
     min_value=0,
     max_value=100,
-    value=5,
+    value=None,
+    placeholder="Ingrese las llamadas de soporte",
 )
 
 payment_delay = st.number_input(
     "Retraso en pagos",
     min_value=0,
     max_value=100,
-    value=5,
+    value=None,
+    placeholder="Ingrese el retraso en pagos",
 )
 
 subscription_type = st.selectbox(
     "Tipo de suscripción",
-    ["Basic", "Standard", "Premium"],
+    ["Seleccione...", "Basic", "Standard", "Premium"],
 )
 
 contract_length = st.selectbox(
     "Duración del contrato",
-    ["Monthly", "Quarterly", "Annual"],
+    ["Seleccione...", "Monthly", "Quarterly", "Annual"],
 )
 
 total_spend = st.number_input(
     "Gasto total",
     min_value=0.0,
     max_value=10000.0,
-    value=500.0,
+    value=None,
+    placeholder="Ingrese el gasto total",
 )
 
 last_interaction = st.number_input(
     "Última interacción",
     min_value=0,
     max_value=100,
-    value=15,
+    value=None,
+    placeholder="Ingrese los días desde la última interacción",
 )
 
 
@@ -188,85 +195,133 @@ model_name = st.selectbox(
 
 if st.button("🔮 Predecir Churn", use_container_width=True):
 
-    # Crear los datos del cliente
-    customer_data = pd.DataFrame(
-        [
-            {
-                "Age": age,
-                "Gender": gender,
-                "Tenure": tenure,
-                "Usage Frequency": usage_frequency,
-                "Support Calls": support_calls,
-                "Payment Delay": payment_delay,
-                "Subscription Type": subscription_type,
-                "Contract Length": contract_length,
-                "Total Spend": total_spend,
-                "Last Interaction": last_interaction,
-            }
-        ]
-    )
-
-    # Aplicar las mismas transformaciones utilizadas
-    # durante el entrenamiento
-    customer_data["Gender"] = customer_data["Gender"].map(
-        {
-            "Female": 0,
-            "Male": 1,
-        }
-    )
-
-    customer_data["Subscription Type"] = customer_data[
-        "Subscription Type"
-    ].map(
-        {
-            "Basic": 0,
-            "Standard": 1,
-            "Premium": 2,
-        }
-    )
-
-    customer_data["Contract Length"] = customer_data[
-        "Contract Length"
-    ].map(
-        {
-            "Monthly": 0,
-            "Quarterly": 1,
-            "Annual": 2,
-        }
-    )
-
-    # Obtener el modelo seleccionado
-    model = models[model_name]
-
-    # Mostrar los datos que se están enviando al modelo
-    st.subheader("Datos enviados al modelo")
-    st.write(customer_data)
-
-    # Realizar la predicción
-    prediction = model.predict(customer_data)[0]
-
-    st.write("Predicción interna:", prediction)
-
     # ========================================================
-    # MOSTRAR RESULTADO
+    # VALIDAR QUE TODOS LOS CAMPOS ESTÉN COMPLETOS
     # ========================================================
 
-    st.header("Resultado")
+    if (
+        age is None
+        or tenure is None
+        or usage_frequency is None
+        or support_calls is None
+        or payment_delay is None
+        or total_spend is None
+        or last_interaction is None
+        or gender == "Seleccione..."
+        or subscription_type == "Seleccione..."
+        or contract_length == "Seleccione..."
+    ):
 
-    if prediction == 1:
-
-        st.error(
-            "⚠️ El modelo predice que el cliente ABANDONARÁ el servicio."
+        st.warning(
+            "⚠️ Por favor, complete todos los campos "
+            "antes de realizar la predicción."
         )
 
     else:
 
-        st.success(
-            "✅ El modelo predice que el cliente PERMANECERÁ en el servicio."
+        # ====================================================
+        # CREAR LOS DATOS DEL CLIENTE
+        # ====================================================
+
+        customer_data = pd.DataFrame(
+            [
+                {
+                    "Age": age,
+                    "Gender": gender,
+                    "Tenure": tenure,
+                    "Usage Frequency": usage_frequency,
+                    "Support Calls": support_calls,
+                    "Payment Delay": payment_delay,
+                    "Subscription Type": subscription_type,
+                    "Contract Length": contract_length,
+                    "Total Spend": total_spend,
+                    "Last Interaction": last_interaction,
+                }
+            ]
         )
 
-    st.write(f"**Modelo utilizado:** {model_name}")
+        # ====================================================
+        # APLICAR LAS MISMAS TRANSFORMACIONES
+        # UTILIZADAS DURANTE EL ENTRENAMIENTO
+        # ====================================================
 
-    st.write(
-        f"**Predicción:** {'Abandona (1)' if prediction == 1 else 'Permanece (0)'}"
-    )
+        customer_data["Gender"] = customer_data["Gender"].map(
+            {
+                "Female": 0,
+                "Male": 1,
+            }
+        )
+
+        customer_data["Subscription Type"] = customer_data[
+            "Subscription Type"
+        ].map(
+            {
+                "Basic": 0,
+                "Standard": 1,
+                "Premium": 2,
+            }
+        )
+
+        customer_data["Contract Length"] = customer_data[
+            "Contract Length"
+        ].map(
+            {
+                "Monthly": 0,
+                "Quarterly": 1,
+                "Annual": 2,
+            }
+        )
+
+        # ====================================================
+        # OBTENER EL MODELO SELECCIONADO
+        # ====================================================
+
+        model = models[model_name]
+
+        # ====================================================
+        # MOSTRAR LOS DATOS ENVIADOS AL MODELO
+        # ====================================================
+
+        st.subheader("Datos enviados al modelo")
+
+        st.dataframe(
+            customer_data,
+            use_container_width=True
+        )
+
+        # ====================================================
+        # REALIZAR LA PREDICCIÓN
+        # ====================================================
+
+        prediction = model.predict(customer_data)[0]
+
+        st.write("Predicción interna:", prediction)
+
+        # ====================================================
+        # MOSTRAR RESULTADO
+        # ====================================================
+
+        st.header("Resultado")
+
+        if prediction == 1:
+
+            st.error(
+                "⚠️ El modelo predice que el cliente "
+                "ABANDONARÁ el servicio."
+            )
+
+        else:
+
+            st.success(
+                "✅ El modelo predice que el cliente "
+                "PERMANECERÁ en el servicio."
+            )
+
+        st.write(
+            f"**Modelo utilizado:** {model_name}"
+        )
+
+        st.write(
+            f"**Predicción:** "
+            f"{'Abandona (1)' if prediction == 1 else 'Permanece (0)'}"
+        )
