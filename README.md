@@ -2,7 +2,7 @@
 
 Repositorio destinado al desarrollo de los retos propuestos durante el curso.
 
-Actualmente contiene cuatro proyectos independientes.
+Actualmente contiene cinco proyectos independientes.
 
 ---
 
@@ -86,5 +86,26 @@ Funcionalidades:
 - Interfaz gráfica para ingresar los datos de una persona y estimar su costo.
 
 📁 [Ver proyecto](./medical-cost)
+
+---
+
+### 5. Bank Loan — Clasificación con representación visual y Deep Learning (Parcial 4)
+
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-Deep%20Learning-EE4C2C?logo=pytorch&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
+
+Clasificación de clientes bancarios (*Fully Paid* / *Charged Off*) transformando cada registro en una imagen.
+
+Funcionalidades:
+
+- Limpieza e ingeniería de variables del dataset Bank Loan.
+- Dos representaciones visuales: matriz de características y Gramian Angular Field.
+- Entrenamiento desde cero, transfer learning y fine tuning (ResNet-18).
+- Comparación de métricas y selección del mejor modelo.
+- Aplicación para evaluar nuevos clientes con su imagen, predicción y nivel de confianza.
+
+📁 [Ver proyecto](./parcial4)
 
 ---
